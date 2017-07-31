@@ -31,7 +31,7 @@ export class ProgressCircle extends Component {
     color: PropTypes.string,
     children: PropTypes.node,
     direction: PropTypes.oneOf(['clockwise', 'counter-clockwise']),
-    formatText: PropTypes.func,
+    innerContent: PropTypes.func,
     indeterminate: PropTypes.bool,
     progress: PropTypes.oneOfType([
       PropTypes.number,
@@ -50,7 +50,9 @@ export class ProgressCircle extends Component {
     borderWidth: 1,
     color: 'rgba(0, 122, 255, 1)',
     direction: 'clockwise',
-    formatText: progress => `${Math.round(progress * 100)}%`,
+    innerContent: progress => (
+      <Text>{`${Math.round(progress * 100)}%`}</Text>
+    ),
     progress: 0,
     showsText: false,
     size: 40,
@@ -82,7 +84,7 @@ export class ProgressCircle extends Component {
       color,
       children,
       direction,
-      formatText,
+      innerContent,
       indeterminate,
       progress,
       rotation,
@@ -160,33 +162,21 @@ export class ProgressCircle extends Component {
             />
           ) : false}
         </Surface>
-        {!indeterminate && showsText ? (
-          <View
-            style={{
-              position: 'absolute',
-              left: textOffset,
-              top: textOffset,
-              width: textSize,
-              height: textSize,
-              borderRadius: textSize / 2,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Text
-              style={[{
-                color,
-                fontSize: textSize / 4.5,
-                fontWeight: '300',
-              }, textStyle]}
-            >
-              {formatText(progressValue)}
-            </Text>
-          </View>
-        ) : false}
-        {children}
-      </View>
-    );
+        <View
+          style={{
+            position: 'absolute',
+            left: textOffset,
+            top: textOffset,
+            width: textSize,
+            height: textSize,
+            borderRadius: textSize / 2,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {innerContent(progressValue)}
+        </View>
+        );
   }
 }
 
