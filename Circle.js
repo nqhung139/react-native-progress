@@ -176,6 +176,7 @@ export class ProgressCircle extends Component {
         >
           {innerContent(progressValue)}
         </View>
+        {children}
       </View>
     );
   }
